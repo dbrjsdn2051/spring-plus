@@ -10,8 +10,12 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.example.expert.config.JwtUtil;
+import org.example.expert.config.security.AuthUser;
+import org.example.expert.domain.user.entity.User;
 import org.example.expert.domain.user.enums.UserRole;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 import java.io.IOException;
@@ -37,6 +41,7 @@ public class CustomAuthorizationFilter extends BasicAuthenticationFilter {
         }
 
         String bearerJwt = httpRequest.getHeader("Authorization");
+        log.info("토큰 정보 = {}", bearerJwt);
 
         if (bearerJwt == null) {
             // 토큰이 없는 경우 400을 반환합니다.
@@ -56,10 +61,6 @@ public class CustomAuthorizationFilter extends BasicAuthenticationFilter {
 
             UserRole userRole = UserRole.valueOf(claims.get("userRole", String.class));
 
-            httpRequest.setAttribute("userId", Long.parseLong(claims.getSubject()));
-            httpRequest.setAttribute("email", claims.get("email"));
-            httpRequest.setAttribute("userRole", claims.get("userRole"));
-
             if (url.startsWith("/admin")) {
                 // 관리자 권한이 없는 경우 403을 반환합니다.
                 if (!UserRole.ADMIN.equals(userRole)) {
@@ -70,6 +71,16 @@ public class CustomAuthorizationFilter extends BasicAuthenticationFilter {
                 return;
             }
 
+            long userId = Long.parseLong(claims.getSubject());
+            String email = (String) claims.get("email");
+            String nickname = (String) claims.get("nickname");
+            User user = User.builder().id(userId).email(email).userRole(userRole).nickname(nickname).build();
+            AuthUser authUser = new AuthUser(user);
+
+            log.info("토큰 정보 인증 완료 ");
+            UsernamePasswordAuthenticationToken authenticationToken
+                    = new UsernamePasswordAuthenticationToken(authUser, null, authUser.getAuthorities());
+            SecurityContextHolder.getContext().setAuthentication(authenticationToken);
             chain.doFilter(httpRequest, httpResponse);
         } catch (SecurityException | MalformedJwtException e) {
             log.error("Invalid JWT signature, 유효하지 않는 JWT 서명 입니다.", e);

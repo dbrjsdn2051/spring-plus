@@ -32,14 +32,15 @@ public class User extends Timestamped {
     }
 
     @Builder
-    private User(Long id, String email, UserRole userRole) {
+    private User(Long id, String email, UserRole userRole, String nickname) {
         this.id = id;
         this.email = email;
         this.userRole = userRole;
+        this.nickname = nickname;
     }
 
     public static User fromAuthUser(AuthUser authUser) {
-        return new User(authUser.getId(), authUser.getEmail(), authUser.getRole());
+        return new User(authUser.getId(), authUser.getEmail(), authUser.getRole(), authUser.getNickname());
     }
 
 
