@@ -2,15 +2,13 @@ package org.example.expert.domain.todo.service;
 
 import lombok.RequiredArgsConstructor;
 import org.example.expert.client.WeatherClient;
-import org.example.expert.domain.common.dto.AuthUser;
+import org.example.expert.config.security.AuthUser;
 import org.example.expert.domain.common.exception.InvalidRequestException;
 import org.example.expert.domain.todo.dto.request.TodoSaveRequest;
 import org.example.expert.domain.todo.dto.response.TodoResponse;
 import org.example.expert.domain.todo.dto.response.TodoSaveResponse;
 import org.example.expert.domain.todo.entity.Todo;
 import org.example.expert.domain.todo.repository.TodoRepository;
-import org.example.expert.domain.todo.repository.TodoRepositoryCustom;
-import org.example.expert.domain.todo.repository.TodoRepositoryCustomImpl;
 import org.example.expert.domain.user.dto.response.UserResponse;
 import org.example.expert.domain.user.entity.User;
 import org.springframework.data.domain.Page;
