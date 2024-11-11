@@ -33,8 +33,6 @@ public class QTodo extends EntityPathBase<Todo> {
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
-    public final ListPath<org.example.expert.domain.manager.entity.Manager, org.example.expert.domain.manager.entity.QManager> managers = this.<org.example.expert.domain.manager.entity.Manager, org.example.expert.domain.manager.entity.QManager>createList("managers", org.example.expert.domain.manager.entity.Manager.class, org.example.expert.domain.manager.entity.QManager.class, PathInits.DIRECT2);
-
     //inherited
     public final DateTimePath<java.time.LocalDateTime> modifiedAt = _super.modifiedAt;
 
