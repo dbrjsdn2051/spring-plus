@@ -4,6 +4,9 @@ import lombok.RequiredArgsConstructor;
 import org.example.expert.client.WeatherClient;
 import org.example.expert.config.security.AuthUser;
 import org.example.expert.domain.common.exception.InvalidRequestException;
+import org.example.expert.domain.log.template.LogServiceTemplate;
+import org.example.expert.domain.manager.entity.Manager;
+import org.example.expert.domain.manager.repository.ManagerRepository;
 import org.example.expert.domain.todo.dto.request.TodoSaveRequest;
 import org.example.expert.domain.todo.dto.response.TodoResponse;
 import org.example.expert.domain.todo.dto.response.TodoSaveResponse;
@@ -22,7 +25,9 @@ import org.springframework.transaction.annotation.Transactional;
 public class TodoService {
 
     private final TodoRepository todoRepository;
+    private final ManagerRepository managerRepository;
     private final WeatherClient weatherClient;
+    private final LogServiceTemplate logServiceTemplate;
 
     @Transactional
     public TodoSaveResponse saveTodo(AuthUser authUser, TodoSaveRequest todoSaveRequest) {
@@ -37,6 +42,8 @@ public class TodoService {
                 user
         );
         Todo savedTodo = todoRepository.save(newTodo);
+
+        logServiceTemplate.execute(() -> managerRepository.save(new Manager(user, savedTodo)));
 
         return new TodoSaveResponse(
                 savedTodo.getId(),
