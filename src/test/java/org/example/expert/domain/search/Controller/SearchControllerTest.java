@@ -17,7 +17,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
-
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -60,7 +59,6 @@ class SearchControllerTest {
                 .andExpect(jsonPath("$.content[0].managerCount").value(5))
                 .andExpect(jsonPath("$.content[0].commentCount").value(10));
     }
-
 
     @Test
     @DisplayName("토큰 정보를 누락했을 때 에러 발생")

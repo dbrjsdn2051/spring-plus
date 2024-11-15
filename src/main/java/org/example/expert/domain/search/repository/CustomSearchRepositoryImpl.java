@@ -69,8 +69,8 @@ public class CustomSearchRepositoryImpl implements CustomSearchRepository {
         return titleCond != null ? todo.title.contains(titleCond) : null;
     }
 
-    private BooleanExpression nicknameEq(String nicknameConde) {
-        return nicknameConde != null ? todo.user.nickname.contains(nicknameConde) : null;
+    private BooleanExpression nicknameEq(String nicknameCond) {
+        return nicknameCond != null ? todo.managers.any().user.nickname.contains(nicknameCond) : null;
     }
 
     private BooleanExpression searchDate(LocalDate startDate, LocalDate endDate) {
