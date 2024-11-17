@@ -19,13 +19,17 @@ public class QLog extends EntityPathBase<Log> {
 
     public static final QLog log = new QLog("log");
 
+    public final StringPath className = createString("className");
+
     public final DateTimePath<java.time.LocalDateTime> createAt = createDateTime("createAt", java.time.LocalDateTime.class);
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
-    public final BooleanPath isSuccess = createBoolean("isSuccess");
+    public final EnumPath<LogStatus> logStatus = createEnum("logStatus", LogStatus.class);
 
     public final StringPath message = createString("message");
+
+    public final StringPath methodName = createString("methodName");
 
     public QLog(String variable) {
         super(Log.class, forVariable(variable));
