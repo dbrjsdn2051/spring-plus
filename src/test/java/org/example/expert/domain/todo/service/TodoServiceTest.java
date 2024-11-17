@@ -67,7 +67,7 @@ class TodoServiceTest {
     }
 
 
-    @DisplayName("Todo 저장후 담당 매니저 저장 실패")
+    @DisplayName("Todo 저장후 담당 매니저 저장 실패시 전체 롤백")
     void TodoSaveManagerFailTest() {
         // given
         User userA = User.builder().id(1L).email("test@example.com").nickname("userA").userRole(UserRole.USER).build();
