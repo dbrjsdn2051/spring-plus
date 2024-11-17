@@ -21,23 +21,30 @@ public class Log {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private boolean isSuccess;
+    @Enumerated(EnumType.STRING)
+    private LogStatus logStatus;
 
     private String message;
+
+    private String className;
+    private String methodName;
 
     @CreatedDate
     private LocalDateTime createAt;
 
-    @Builder
-    public Log(Long id, boolean isSuccess, String message, LocalDateTime createAt) {
+    public Log(Long id, LogStatus logStatus, String message, String className, String methodName, LocalDateTime createAt) {
         this.id = id;
-        this.isSuccess = isSuccess;
+        this.logStatus = logStatus;
         this.message = message;
+        this.className = className;
+        this.methodName = methodName;
         this.createAt = createAt;
     }
 
-    public Log(boolean isSuccess, String message) {
-        this.isSuccess = isSuccess;
+    public Log(LogStatus logStatus, String message, String className, String methodName) {
+        this.logStatus = logStatus;
         this.message = message;
+        this.className = className;
+        this.methodName = methodName;
     }
 }
