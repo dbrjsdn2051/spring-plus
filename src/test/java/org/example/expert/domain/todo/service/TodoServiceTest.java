@@ -63,7 +63,7 @@ class TodoServiceTest {
 
         verify(weatherClient, times(1)).getTodayWeather();
         verify(todoRepository, times(1)).save(any());
-        verify(logServiceTemplate, times(1)).execute(any());
+        verify(logServiceTemplate, times(1)).execute(any(), any(), any());
     }
 
 
@@ -79,7 +79,11 @@ class TodoServiceTest {
         when(todoRepository.save(any(Todo.class))).thenReturn(savedTodo);
 
         doThrow(new Exception())
-                .when(logServiceTemplate.execute(() -> managerRepository.save(new Manager(userA, savedTodo))));
+                .when(logServiceTemplate.execute(() ->
+                                managerRepository.save(new Manager(userA, savedTodo)),
+                        this.getClass().getName(),
+                        Thread.currentThread().getStackTrace()[1].getMethodName()
+                ));
 
         // when & then
         assertThatThrownBy(() -> todoService.saveTodo(authUser, reqDto))
@@ -87,7 +91,7 @@ class TodoServiceTest {
 
         verify(weatherClient, times(1)).getTodayWeather();
         verify(todoRepository, times(1)).save(any());
-        verify(logServiceTemplate, times(1)).execute(any());
+        verify(logServiceTemplate, times(1)).execute(any(), any(), any());
     }
 
 }

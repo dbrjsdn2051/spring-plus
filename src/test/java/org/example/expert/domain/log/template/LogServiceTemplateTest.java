@@ -1,5 +1,6 @@
 package org.example.expert.domain.log.template;
 
+import org.example.expert.domain.log.entity.LogStatus;
 import org.example.expert.domain.log.service.LogService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -32,13 +33,13 @@ class LogServiceTemplateTest {
         when(callback.execute()).thenReturn(successResult);
 
         // when
-        String execute = logServiceTemplate.execute(callback);
+        String execute = logServiceTemplate.execute(callback, this.getClass().getName(), Thread.currentThread().getStackTrace()[1].getMethodName());
 
         // then
         assertThat(execute).isNotNull();
         assertThat(execute).isEqualTo(successResult);
 
-        verify(logService, times(1)).saveLog(true, "Success");
+        verify(logService, times(1)).saveLog(eq(LogStatus.SUCCESS), eq(LogStatus.SUCCESS.toString()), anyString(), anyString());
     }
 
     @Test
@@ -48,10 +49,14 @@ class LogServiceTemplateTest {
         when(callback.execute()).thenThrow(new RuntimeException("Save Fail"));
 
         // when & then
-        assertThatThrownBy(() -> logServiceTemplate.execute(callback))
+        assertThatThrownBy(() ->
+                logServiceTemplate.execute(callback,
+                        this.getClass().getName(),
+                        Thread.currentThread().getStackTrace()[1].getMethodName()
+                ))
                 .isInstanceOf(RuntimeException.class);
 
-        verify(logService, times(1)).saveLog(any(), any());
+        verify(logService, times(1)).saveLog(eq(LogStatus.FAIL), eq("Save Fail"), anyString(), anyString());
     }
 
 }
