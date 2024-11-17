@@ -2,6 +2,7 @@ package org.example.expert.domain.log.service;
 
 import lombok.RequiredArgsConstructor;
 import org.example.expert.domain.log.entity.Log;
+import org.example.expert.domain.log.entity.LogStatus;
 import org.example.expert.domain.log.repository.LogRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -14,7 +15,7 @@ public class LogService {
     private final LogRepository logRepository;
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
-    public void saveLog(Boolean isSuccess, String message) {
-        logRepository.save(new Log(isSuccess, message));
+    public void saveLog(LogStatus status, String message, String className, String methodName) {
+        logRepository.save(new Log(status, message, className, methodName));
     }
 }

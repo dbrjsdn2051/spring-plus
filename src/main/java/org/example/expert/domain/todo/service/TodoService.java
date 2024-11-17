@@ -43,7 +43,10 @@ public class TodoService {
         );
         Todo savedTodo = todoRepository.save(newTodo);
 
-        logServiceTemplate.execute(() -> managerRepository.save(new Manager(user, savedTodo)));
+        logServiceTemplate.execute(() ->
+                        managerRepository.save(new Manager(user, savedTodo)),
+                        this.getClass().getName(),
+                        Thread.currentThread().getStackTrace()[1].getMethodName());
 
         return new TodoSaveResponse(
                 savedTodo.getId(),
