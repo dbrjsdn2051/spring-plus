@@ -55,7 +55,6 @@ public class CustomSearchRepositoryImpl implements CustomSearchRepository {
                 .select(todo.id.countDistinct())
                 .from(todo)
                 .leftJoin(todo.managers, manager)
-                .leftJoin(todo.comments, comment)
                 .where(
                         titleEq(titleCond),
                         nicknameEq(nicknameCond),
