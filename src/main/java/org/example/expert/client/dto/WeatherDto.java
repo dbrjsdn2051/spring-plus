@@ -1,15 +1,15 @@
 package org.example.expert.client.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
+@AllArgsConstructor
+@NoArgsConstructor
 public class WeatherDto {
 
-    private final String date;
-    private final String weather;
+    private String date;
+    private String weather;
 
-    public WeatherDto(String date, String weather) {
-        this.date = date;
-        this.weather = weather;
-    }
 }

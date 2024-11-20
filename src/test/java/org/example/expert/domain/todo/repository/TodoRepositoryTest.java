@@ -5,6 +5,7 @@ import org.example.expert.domain.user.entity.User;
 import org.example.expert.domain.user.enums.UserRole;
 import org.example.expert.domain.user.repository.UserRepository;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,8 @@ import org.springframework.context.annotation.Import;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -27,7 +30,7 @@ class TodoRepositoryTest {
     @Autowired
     private UserRepository userRepository;
 
-    @AfterEach
+    @BeforeEach
     void clean() {
         todoRepository.deleteAll();
         userRepository.deleteAll();
@@ -82,14 +85,13 @@ class TodoRepositoryTest {
         User user = new User("test@example.com", "password1!", UserRole.USER, "test");
         userRepository.save(user);
         Todo todo = new Todo("titleA", "contentA", "sunny", user);
-        todoRepository.save(todo);
-        System.out.println("================================");
+        Todo savedTodo = todoRepository.save(todo);
         // when
-        Todo findTodo = todoRepository.findByIdWithUser(1L).orElseThrow();
+        Todo findTodo = todoRepository.findByIdWithUser(savedTodo.getId()).orElseThrow();
 
         // then
         assertThat(findTodo).isNotNull();
-        assertThat(findTodo.getId()).isEqualTo(1L);
+        assertThat(findTodo.getId()).isEqualTo(savedTodo.getId());
         assertThat(findTodo.getTitle()).isEqualTo("titleA");
     }
 }
