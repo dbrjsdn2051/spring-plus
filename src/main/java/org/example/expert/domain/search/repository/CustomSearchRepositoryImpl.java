@@ -3,10 +3,14 @@ package org.example.expert.domain.search.repository;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.Expressions;
+import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
+import org.example.expert.domain.comment.entity.QComment;
+import org.example.expert.domain.manager.entity.QManager;
 import org.example.expert.domain.search.dto.SearchResponseDto;
+import org.example.expert.domain.todo.entity.QTodo;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.support.PageableExecutionUtils;
@@ -17,9 +21,10 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 
-import static org.example.expert.domain.comment.entity.QComment.comment;
-import static org.example.expert.domain.manager.entity.QManager.manager;
+import static org.example.expert.domain.comment.entity.QComment.*;
+import static org.example.expert.domain.manager.entity.QManager.*;
 import static org.example.expert.domain.todo.entity.QTodo.todo;
+
 
 @Repository
 @RequiredArgsConstructor

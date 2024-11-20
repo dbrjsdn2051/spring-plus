@@ -100,5 +100,10 @@ class CustomSearchRepositoryImplTest {
                 = customSearchRepository.search(pageRequest, null, null, null, null);
 
         assertThat(results).hasSize(6);
+        for (SearchResponseDto result : results) {
+            System.out.println("result.toString() = " + result.getTitle());
+            System.out.println("result.getCommentCount() = " + result.getCommentCount());
+            System.out.println("result = " + result.getManagerCount());
+        }
     }
 }

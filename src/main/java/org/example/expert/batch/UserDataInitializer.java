@@ -23,7 +23,7 @@ public class UserDataInitializer {
 
     @PostConstruct
     public void executeBatchInsert() {
-        if (!ddlAuto.equals("create")) return;
+        if (!ddlAuto.equals("update")) return;
         batchInsertUserService.insertUser(1_000_000);
     }
 }
