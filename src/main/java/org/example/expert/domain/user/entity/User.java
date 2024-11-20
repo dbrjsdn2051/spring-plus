@@ -14,7 +14,8 @@ import org.example.expert.domain.user.enums.UserRole;
 @Table(name = "users")
 public class User extends Timestamped {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(unique = true)
     private String email;
@@ -31,10 +32,18 @@ public class User extends Timestamped {
         this.nickname = nickname;
     }
 
-    @Builder
     private User(Long id, String email, UserRole userRole, String nickname) {
         this.id = id;
         this.email = email;
+        this.userRole = userRole;
+        this.nickname = nickname;
+    }
+
+    @Builder
+    public User(Long id, String email, String password, UserRole userRole, String nickname) {
+        this.id = id;
+        this.email = email;
+        this.password = password;
         this.userRole = userRole;
         this.nickname = nickname;
     }
