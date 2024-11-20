@@ -21,7 +21,7 @@ public class LogServiceTemplate {
         } catch (Exception e) {
             log.info("Error = {}", e.getMessage());
             logService.saveLog(LogStatus.FAIL, e.getMessage(), className, methodName);
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("로직 실패", e);
         }
     }
 }
